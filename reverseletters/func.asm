@@ -2,9 +2,9 @@ section .bss
 buffer resb 100
 
 section .text
-global reversedigits
+global reverseletters
 
-reversedigits:
+reverseletters:
     ; Push frame pointer
     push ebp
     ; Set frame pointer to current stack pointer
@@ -33,34 +33,63 @@ reversedigits:
 
     check_next_char:
         ; Check if current char is null if so end
-        cmp byte [esi], 0
-        je end_next_char
+        mov al, [esi]
+        test al, al
+        jz end_next_char
 
-        ; If current char is lower than 0 in ascii go to next char
-        cmp byte [esi], 0x30
+        ; If current char is lower than A in ascii go to next char
+        cmp byte [esi], 0x41
         jl next_char
 
-        ; If current char is higher than 9 in ascii go to next char
-        cmp byte [esi], 0x39
+        ; If current char is higher than z in ascii go to next char
+        cmp byte [esi], 0x7A
         jg next_char
 
-        ; If current char is a digit
-        ; Save last digit from ecx
+        ; Check all chars between Z and a
+        cmp byte [esi], 0x5B
+        je next_char
+        cmp byte [esi], 0x5C
+        je next_char
+        cmp byte [esi], 0x5D
+        je next_char
+        cmp byte [esi], 0x5E
+        je next_char
+        cmp byte [esi], 0x5F
+        je next_char
+        cmp byte [esi], 0x60
+        je next_char
+
+        ; If current char is a letter
+        ; Save letter digit from ecx
 
     reverse_loop:
         ; Check if current char is null if so end
         cmp byte [ecx], 0
         je end_next_char
 
-        ; If current char is lower than 0 in ascii go to next char
-        cmp byte [ecx], 0x30
+        ; If current char is lower than A in ascii go to next char
+        cmp byte [ecx], 0x41
         jl reverse_loop_next_char
 
-        ; If current char is higher than 9 in ascii go to next char
-        cmp byte [ecx], 0x39
+        ; If current char is higher than z in ascii go to next char
+        cmp byte [ecx], 0x7A
         jg reverse_loop_next_char
 
-        ; If current char is a digit
+        ; Check all chars between Z and a
+        cmp byte [esi], 0x5B
+        je reverse_loop_next_char
+        cmp byte [esi], 0x5C
+        je reverse_loop_next_char
+        cmp byte [esi], 0x5D
+        je reverse_loop_next_char
+        cmp byte [esi], 0x5E
+        je reverse_loop_next_char
+        cmp byte [esi], 0x5F
+        je reverse_loop_next_char
+        cmp byte [esi], 0x60
+        je reverse_loop_next_char
+
+        ; If current char is a letter
         mov al, [ecx]
         mov [edi], al
         inc edi
