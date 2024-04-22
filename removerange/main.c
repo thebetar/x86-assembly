@@ -6,7 +6,7 @@ extern char *removerange(char *str, char a, char b);
 
 int main(int argc, char *argv[])
 {
-    if (argc > 4 || argc < 4)
+    if (argc != 4)
     {
         printf("Usage is <string> <char1> <char2>");
         return 1;

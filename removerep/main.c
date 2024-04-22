@@ -3,9 +3,15 @@
 
 extern char *removerep(char *);
 
-int main(void)
+int main(int argc, char **argv)
 {
-    char str[] = "aabbccddeeff";
+    if (argc != 2)
+    {
+        fprintf(stderr, "Usage: %s <string>\n", argv[0]);
+        return 1;
+    }
+
+    char *str = argv[1];
 
     char *result = removerep(str);
 
