@@ -81,20 +81,32 @@ removeoutsidebracketslen:
     end_check:
         ; Set null terminator
         mov byte [edi], 0
-        mov esi, buffer
+        mov esi, [ebp+8]
+        mov edi, buffer
 
         ; Set counter to 0
         mov ecx, 0
 
     second_loop:
         ; Check for null terminator
-        mov al, [esi]
+        mov al, [edi]
         test al, al
-        jz end
+        jz end_second_loop
 
-        inc ecx
+        ; Change initial string
+        mov [esi], al
         inc esi
+
+        ; Increment counter
+        inc ecx
+
+        ; Go to next char
+        inc edi
         jmp second_loop
+
+    end_second_loop:
+        ; Set null terminator
+        mov byte [esi], 0
 
     end:
         ; Set return value
