@@ -1,3 +1,6 @@
+section .data
+counter db 0
+
 section .text
 global leavelastndgt
 
@@ -13,7 +16,7 @@ leavelastndgt:
     mov ecx, [ebp+12]
 
     ; Set counter to store string length
-    mov edx, 0
+    mov byte [counter], 0
     ; Set source pointer to the start of the string
     mov esi, eax
 
@@ -22,7 +25,7 @@ leavelastndgt:
         cmp byte [esi], 0
         je remove_chars
         ; Increment counter
-        inc edx
+        inc byte [counter]
         ; Increment source pointer
         inc esi
         ; Next iteration
@@ -34,7 +37,7 @@ leavelastndgt:
         ; Set destination pointer to the start of the string
         mov edi, eax
         ; Subtract n from string length
-        sub edx, ecx
+        sub byte [counter], cl
         ; Move 0 into ecx
         mov ecx, 0  ; DONT USE ebx
 
@@ -44,10 +47,10 @@ leavelastndgt:
         cmp byte [esi], 0
         je end_copy
         ; If counter is more than the length of the string
-        cmp ecx, edx
+        cmp cl, byte [counter]
         jge copy_char
         ; Increment counter
-        inc ecx
+        inc cl
         ; Increment source pointer
         inc esi
         ; Next iteration
